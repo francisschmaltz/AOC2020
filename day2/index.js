@@ -17,20 +17,12 @@ const checkPassword = (arr) => {
     let ltr = arr[i][2];
     let pwdRaw = arr[i][3];
 
-    // We need to sort the letters to look for
-    // non-sequential amounts
-    let pwd = pwdRaw.split("").sort().join("");
+    // We need to split the string into an array and filter
+    // non matching strings
+    let pwd = pwdRaw.split("").filter((l) => l === ltr);
 
-    let regex = new RegExp(
-      `([^${ltr}{${max + 1}}]|${ltr}{${min},${max}}[^${ltr}]+)$`
-    );
-
-    // If Regex matches then the password is valid
-    // Log the valid password
-    if (regex.test(pwd)) {
-      console.log(pwd);
-      console.log(regex);
-      console.log(validAmt);
+    // Check for right amount of matched letter
+    if (pwd.length >= min && pwd.length <= max) {
       validAmt += 1;
     }
   }
