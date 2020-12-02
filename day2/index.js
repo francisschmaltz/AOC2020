@@ -15,13 +15,22 @@ const checkPassword = (arr) => {
     let min = arr[i][0];
     let max = arr[i][1];
     let ltr = arr[i][2];
-    let pwd = arr[i][3];
+    let pwdRaw = arr[i][3];
 
-    let regex = new RegExp(`${ltr}{${min},${max}}`);
+    // We need to sort the letters to look for
+    // non-sequential amounts
+    let pwd = pwdRaw.split("").sort().join("");
+
+    let regex = new RegExp(
+      `([^${ltr}{${max + 1}}]|${ltr}{${min},${max}}[^${ltr}]+)$`
+    );
 
     // If Regex matches then the password is valid
     // Log the valid password
     if (regex.test(pwd)) {
+      console.log(pwd);
+      console.log(regex);
+      console.log(validAmt);
       validAmt += 1;
     }
   }
