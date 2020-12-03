@@ -16,7 +16,8 @@ const treeData = treeDataRaw.split(",");
  * trees encountered
  * @param {Array} some array of strings
  * @param {Number} horizontal movement
- * @return {Number} vertical movement
+ * @param {Number} vertical movement
+ * @return {Number} trees encountered
  */
 const findTrees = (arr, hMove, vMove) => {
   // Count valid passwords
