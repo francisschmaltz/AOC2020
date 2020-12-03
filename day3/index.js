@@ -13,35 +13,38 @@ const treeData = treeDataRaw.split(",");
 // Takes array of data and array for move
 // and returns INT of number
 // of trees encountered
-const findTrees = (arr, move) => {
-  const hMove = move[0];
-  const vMove = move[1];
-
+const findTrees = (arr, hMove, vMove) => {
   // Count valid passwords
   var treeHits = 0;
 
   // Loop through array and check each password
-  for (let i = 0; i < arr.length; i++) {
+  for (var i = 0; i < arr.length; i += vMove) {
     // split row string into array so we can check
     let row = arr[i].split("");
 
-    let pos = i * hMove;
+    let pos = (i / vMove) * hMove;
 
     // Use remainder to alter horizontal position
     if (pos >= row.length) {
-      pos = (i * hMove) % row.length;
+      pos = ((i / vMove) * hMove) % row.length;
     }
 
     if (row[pos] === "#") {
-      console.log("it's a tree");
-      console.log(i);
-      console.log(pos);
       treeHits += 1;
-      console.log(row);
     }
   }
 
   return treeHits;
 };
 
-console.log(`Number of Tree Hits: ${findTrees(treeData, [3, 1])}`);
+console.log(`Number of Tree Hits: ${findTrees(treeData, 3, 1)}`);
+
+//// Part two
+// Find trees in multiple places and multiple
+console.log(`\n\n Part Two! You need to multiply the numbers below \n\n`);
+const a = findTrees(treeData, 1, 1);
+const b = findTrees(treeData, 3, 1);
+const c = findTrees(treeData, 5, 1);
+const d = findTrees(treeData, 7, 1);
+const e = findTrees(treeData, 1, 2);
+console.log(`Number of Tree Hits: ${a * b * c * d * e}`);
