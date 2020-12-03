@@ -10,18 +10,27 @@ const treeData = treeDataRaw.split(",");
 // "." are free areas "#" are trees
 // strings "loop" forever
 
-// Takes array of data and array for move
-// and returns INT of number
-// of trees encountered
+/**
+ * Takes array of data and array for move
+ * and returns INT of number of
+ * trees encountered
+ * @param {Array} some array of strings
+ * @param {Number} horizontal movement
+ * @return {Number} vertical movement
+ */
 const findTrees = (arr, hMove, vMove) => {
   // Count valid passwords
   var treeHits = 0;
 
   // Loop through array and check each password
+  // increment int by vertical movement variable
   for (var i = 0; i < arr.length; i += vMove) {
     // split row string into array so we can check
     let row = arr[i].split("");
 
+    // calculate position and make sure that
+    // non-single vertical movement is
+    // taken into account
     let pos = (i / vMove) * hMove;
 
     // Use remainder to alter horizontal position
