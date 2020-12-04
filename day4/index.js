@@ -68,30 +68,36 @@ const checkPassportData = (arr) => {
     let cid = p.hasOwnProperty("cid");
 
     // Check if passport has all the valid fields
+    // If it has all the valid fields, then check the data
     if (byr && iyr && eyr && hgt && hcl && ecl && pid) {
       // Keep track of validation checks that pass
       let checksPassed = 0;
 
-      // Check birth year
+      // Check birth year is within range
       if (Number(p.byr) >= 1920 && Number(p.byr) <= 2002) {
         checksPassed++;
       }
 
-      // Check issue year
+      // Check issue year is within range
       if (Number(p.iyr) >= 2010 && Number(p.iyr) <= 2020) {
         checksPassed++;
       }
 
-      // Check experation year
+      // Check experation year is within range
       if (Number(p.eyr) >= 2020 && Number(p.eyr) <= 2030) {
         checksPassed++;
       }
 
-      // Check height valiation
-      // Split height into an array by numbers
+      // Check height valiation is within range
+      // That is specific to unit type
+
+      // Split height into a number and a unit
       let heightNbrs = Number(p.hgt.split(/\D/)[0]);
       let heightUnit = p.hgt.replace(/[0-9]/g, "");
 
+      // Check what unit type we are using
+      // Then check if range is within values
+      // specific to the range
       if (heightUnit === "cm") {
         if (heightNbrs >= 150 && heightNbrs <= 193) {
           checksPassed++;
