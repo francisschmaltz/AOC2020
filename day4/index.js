@@ -1,62 +1,75 @@
 // Load in the Data
 const passportData = require("./data");
 
-class PassportValidation {
-  constructor(arr) {
-    this.passports = arr;
-  }
+/**
+ * Takes array of data and array for move
+ * and returns INT of number of
+ * passports that are valid
+ * @param {Array} array of objects
+ * @return {Number} INT of valid passports
+ */
+const checkPassports = (arr) => {
+  // Count valid passwords
+  var validPassports = 0;
 
-  /**
-   * Takes array of data and array for move
-   * and returns INT of number of
-   * passports that are valid
-   * @return {Array} array of objects that have all the fields
-   */
-  checkPassportFields() {
-    // Count valid passwords
-    var validPassports = [];
+  for (var i = 0; i < arr.length; i++) {
+    // Create passport object
+    let p = arr[i];
 
-    for (var i = 0; i < this.passports.length; i++) {
-      // Create passport object
-      let p = this.passports[i];
+    // Check to see if object has
+    // the requested fields
+    let byr = p.hasOwnProperty("byr");
+    let iyr = p.hasOwnProperty("iyr");
+    let eyr = p.hasOwnProperty("eyr");
+    let hgt = p.hasOwnProperty("hgt");
+    let hcl = p.hasOwnProperty("hcl");
+    let ecl = p.hasOwnProperty("ecl");
+    let pid = p.hasOwnProperty("pid");
 
-      // Check to see if object has
-      // the requested fields
-      let byr = p.hasOwnProperty("byr");
-      let iyr = p.hasOwnProperty("iyr");
-      let eyr = p.hasOwnProperty("eyr");
-      let hgt = p.hasOwnProperty("hgt");
-      let hcl = p.hasOwnProperty("hcl");
-      let ecl = p.hasOwnProperty("ecl");
-      let pid = p.hasOwnProperty("pid");
+    // Do not check this yet
+    let cid = p.hasOwnProperty("cid");
 
-      // Do not check this yet
-      let cid = p.hasOwnProperty("cid");
-
-      if (byr && iyr && eyr && hgt && hcl && ecl && pid) {
-        validPassports.push(p);
-      }
+    if (byr && iyr && eyr && hgt && hcl && ecl && pid) {
+      validPassports += 1;
     }
-
-    return validPassports;
   }
 
-  /**
-   * Takes array of data and array for move
-   * and returns INT of number of
-   * passports that are valid
-   * @return {Number} INT of valid passports
-   */
-  checkPassportData() {
-    // Count valid passwords
-    var validPassports = 0;
+  return validPassports;
+};
 
-    const fullPassports = this.checkPassportFields(this.passports);
+console.log(`Number of valid passports: ${checkPassports(passportData)}`);
 
-    for (var i = 0; i < fullPassports.length; i++) {
-      // Create passport object
-      let p = fullPassports[i];
+/**
+ * Takes array of data and array for move
+ * and returns INT of number of
+ * passports that are valid
+ * @param {Array} array of objects
+ * @return {Number} INT of valid passports
+ */
+const checkPassportData = (arr) => {
+  // Count valid passwords
+  var validPassports = 0;
 
+  for (var i = 0; i < arr.length; i++) {
+    // Create passport object
+    let p = arr[i];
+
+    // Check to see if object has
+    // the requested fields
+    let byr = p.hasOwnProperty("byr");
+    let iyr = p.hasOwnProperty("iyr");
+    let eyr = p.hasOwnProperty("eyr");
+    let hgt = p.hasOwnProperty("hgt");
+    let hcl = p.hasOwnProperty("hcl");
+    let ecl = p.hasOwnProperty("ecl");
+    let pid = p.hasOwnProperty("pid");
+
+    // Do not check this yet
+    let cid = p.hasOwnProperty("cid");
+
+    // Check if passport has all the valid fields
+    // If it has all the valid fields, then check the data
+    if (byr && iyr && eyr && hgt && hcl && ecl && pid) {
       // Keep track of validation checks that pass
       let checksPassed = 0;
 
@@ -130,28 +143,13 @@ class PassportValidation {
         validPassports += 1;
       }
     }
-
-    return validPassports;
   }
 
-  /**
-   * Returns numbner of complete passports
-   * @return {Number} Int of passports with correct fields
-   */
-  completePassports() {
-    return this.checkPassportFields().length;
-  }
+  return validPassports;
+};
 
-  /**
-   * Returns numbner of complete passports
-   * @return {Number} Int of passports with correct fields
-   */
-  validPassports() {
-    return this.checkPassportData();
-  }
-}
-
-let passportResults = new PassportValidation(passportData);
-console.log(`Number of real passports: ${passportResults.completePassports()}`);
-
-console.log(`Number of valid passports: ${passportResults.validPassports()}`);
+console.log(
+  `Number of valid passports with valid data: ${checkPassportData(
+    passportData
+  )}`
+);
