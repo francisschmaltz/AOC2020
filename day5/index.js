@@ -20,9 +20,9 @@ class BoardingPass {
   }
 
   /**
-   * Takes array of data and array for move
-   * and returns INT of number of
-   * trees encountered
+   * Takes a string and does a bianary sort
+   * based of the lenght of the string and
+   * low and high characters
    * @param {String} string for sorting
    * @param {String} character for Low
    * @param {String} character for High
