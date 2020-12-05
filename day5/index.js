@@ -47,15 +47,29 @@ class BoardingPass {
   }
 }
 
-let allRows = [];
+let seatIDs = [];
 
 for (let i = 0; i < boardingPasses.length; i++) {
   let pass = new BoardingPass(boardingPasses[i]);
-  allRows.push(pass.row * 8 + pass.seat);
-  console.log(
-    `Row: ${pass.row} Seat: ${pass.seat} ID: ${pass.row * 8 + pass.seat}`
-  );
+  seatIDs.push(pass.row * 8 + pass.seat);
+  // console.log(
+  //   `Row: ${pass.row} Seat: ${pass.seat} ID: ${pass.row * 8 + pass.seat}`
+  // );
 }
 
 // Show highest seat ID
-console.log(`Highest SeatID: ${allRows.sort((a, b) => b - a)[0]}`);
+seatIDs.sort((a, b) => b - a);
+console.log(`Highest SeatID: ${seatIDs[0]}`);
+
+//// Part two
+// Find your seat – it should be the only missing seat
+for (let i = 0; i < seatIDs.length; i++) {
+  // If the next seat ID is not 1 less
+  // then it's probably ours
+  if (seatIDs[i] !== seatIDs[i + 1] + 1) {
+    console.log(
+      `These might be your seat partners: ${seatIDs[i]} and ${seatIDs[i + 1]}`
+    );
+    console.log(`So your seat is ${seatIDs[i] - 1}`);
+  }
+}
