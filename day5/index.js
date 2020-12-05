@@ -36,6 +36,11 @@ class BoardingPass {
     // 2 to the power of string length
     let num = Math.pow(2, arr.length);
 
+    // For every character in the string
+    // use the LOW and HIGH characters to
+    // base our bianary sort on. We start
+    // with the max value and then subtract if
+    // the low number is used.
     for (let i = 0; i < arr.length; i++) {
       if (arr[i] === low) {
         num += Math.pow(2, arr.length - 1 - i) * -1;
@@ -62,13 +67,16 @@ seatIDs.sort((a, b) => b - a);
 console.log(`Highest SeatID: ${seatIDs[0]}`);
 
 //// Part two
-// Find your seat – it should be the only missing seat
+// Find your seat – it should be the only missing seat that'
 for (let i = 0; i < seatIDs.length; i++) {
   // If the next seat ID is not 1 less
-  // then it's probably ours
-  if (seatIDs[i] !== seatIDs[i + 1] + 1) {
+  // then it's probably ours and also check if
+  // there is a next-higher seatID
+  if (seatIDs[i] !== seatIDs[i + 1] + 1 && seatIDs[i + 1]) {
     console.log(
-      `These might be your seat partners: ${seatIDs[i]} and ${seatIDs[i + 1]}`
+      `\n These might be your seat partners: ${seatIDs[i]} and ${
+        seatIDs[i + 1]
+      } \n`
     );
     console.log(`So your seat is ${seatIDs[i] - 1}`);
   }
