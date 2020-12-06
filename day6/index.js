@@ -14,9 +14,9 @@ const checkCustomsData = (arr, affirmReq = 1) => {
   var uniqueObj = {};
 
   // Loop through strings in array
-  arr.forEach((stringArr) => {
+  arr.forEach((answerString) => {
     // Loop through characters in string
-    stringArr.split("").forEach((char) => {
+    answerString.split("").forEach((char) => {
       // for every letter check if obj.letter
       // is added – if so add 1, if not set as 1
       if (typeof uniqueObj[`${char}`] === "undefined") {
