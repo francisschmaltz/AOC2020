@@ -1,5 +1,6 @@
 // Load in the Data
 const bagSortRules = require("./data");
+const bagSortRulesSample = require("./sample");
 
 /**
  *
@@ -13,7 +14,7 @@ const createRulesObject = (arr) => {
   arr.forEach((ruleString) => {
     let stringArr = ruleString.split(",");
     let parentBag = stringArr[0].replace(/\d\s/, "").replace(/[.]/, "");
-
+    console.log(stringArr);
     // String array contains no bags
     if (stringArr.length === 1) {
       // Parent bags need empty array to sort later
@@ -53,7 +54,8 @@ const findParentBags = (targetBag) => {
   }
 };
 
-findParentBags("shiny gold bags");
+findParentBags("shiny gold bag");
+console.log(parentBagSet);
 console.log(`Number of Shiny Gold Bag Parents: ${parentBagSet.size}`);
 
 // console.log(`Part 2: ${func(customsData)}`);
