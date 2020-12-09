@@ -104,6 +104,7 @@ const findContiguousSum = (arr, sum) => {
   }
 };
 
+// Get configuous array and sort by size small to large
 let contigArr = findContiguousSum(data, 1930745883).sort((a, b) => a - b);
 console.log(contigArr);
 console.log(
