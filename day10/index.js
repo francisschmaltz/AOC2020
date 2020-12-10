@@ -56,14 +56,6 @@ console.log(
 );
 
 /**
- * Get number of possible combinations
- * of adapters
- * @param {Array} Array of integers
- * @return {Number} Int of combos
- */
-const getArrangementCount = (arr) => {};
-
-/**
  * Create every permutation of arr
  * @param {Array} Array of integers
  * @return {Number} Int of valid permutations
