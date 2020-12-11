@@ -123,17 +123,12 @@ const getAdjacentValuesFar = (arr, row, col) => {
         break;
       } else if (unDef(returnObject[adj]) !== true) {
         // Call function by object name
-        console.log(returnObject[adj]);
         returnObject[adj] = funcMap[adj](col, row, i);
       } else {
-        console.log(adj);
-        console.log(returnObject[adj]);
         throw new Error("Somethings wrong I can feel it (adj in returnObject)");
       }
     }
     if (nonSeatCount === 0) {
-      console.log(row, col);
-      console.log(newReturnObj);
       return newReturnObj;
     }
   }
@@ -276,13 +271,13 @@ const findSeeting = (
   return iterations;
 };
 
-// console.log(
-//   `Number of itterations before stable seeting: ${findSeeting(data)}`
-// );
+console.log(
+  `Number of itterations before stable seeting: ${findSeeting(data)}`
+);
 
 console.log(
   `Part Two: Number of itterations before stable seeting: ${findSeeting(
-    dataSample1,
+    data,
     getAdjacentValuesFar,
     5
   )}`
