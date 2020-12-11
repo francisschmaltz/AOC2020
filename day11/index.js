@@ -113,12 +113,16 @@ const getAdjacentValuesFar = (arr, row, col) => {
   nonSeatCount = 8;
   for (adj in returnObject) {
     for (var i = 1; i < arr.length; ++i) {
+      // Error checking
       if (unDef(returnObject[adj]) === true) {
         console.log(unDef(returnObject[adj]));
         console.error(returnObject);
         console.log(returnObject[adj]);
         throw new Error("why is this undefined – somethings wrong");
       }
+
+      // Check current value and compute new one – making sure
+      // to either hit "null" space or a chair
       if (returnObject[adj] === null) {
         nonSeatCount -= 1;
         newReturnObj[adj] = null;
