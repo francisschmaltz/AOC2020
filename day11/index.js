@@ -67,29 +67,29 @@ const getAdjacentValuesFar = (arr, row, col) => {
     },
 
     upCen: (_col, _row, _int = 1) => {
-      return arr[_row - _int] ? arr[_row - _int][_col] : null;
+      return _row - _int >= 0 ? arr[_row - _int][_col] : null;
     },
     upLft: (_col, _row, _int = 1) => {
-      return arr[_row - _int] && _col - _int >= 0
+      return _row - _int >= 0 && _col - _int >= 0
         ? arr[_row - _int][_col - _int]
         : null;
     },
     upRgt: (_col, _row, _int = 1) => {
-      return arr[_row - _int] && _col + _int <= arr.length
+      return _row - _int >= 0 && _col + _int <= arr.length
         ? arr[_row - _int][_col + _int]
         : null;
     },
 
     dnCen: (_col, _row, _int = 1) => {
-      return arr[_row + _int] ? arr[_row + _int][_col] : null;
+      return _row + _int < arr.length ? arr[_row + _int][_col] : null;
     },
     dnLft: (_col, _row, _int = 1) => {
-      return arr[_row + _int] && _col - _int >= 0
+      return _row + _int < arr.length && _col - _int >= 0
         ? arr[_row + _int][_col - _int]
         : null;
     },
     dnRgt: (_col, _row, _int = 1) => {
-      return arr[_row + _int] && _col + _int < arr.length
+      return _row + _int < arr.length && _col + _int < arr.length
         ? arr[_row + _int][_col + _int]
         : null;
     },
@@ -112,7 +112,7 @@ const getAdjacentValuesFar = (arr, row, col) => {
   let newReturnObj = {};
   nonSeatCount = 8;
   for (adj in returnObject) {
-    for (var i = 0; i < arr.length; ++i) {
+    for (var i = 1; i < arr.length; ++i) {
       if (returnObject[adj] === null) {
         nonSeatCount -= 1;
         newReturnObj[adj] = null;
@@ -123,6 +123,7 @@ const getAdjacentValuesFar = (arr, row, col) => {
         break;
       } else if (unDef(returnObject[adj]) !== true) {
         // Call function by object name
+        console.log(returnObject[adj]);
         returnObject[adj] = funcMap[adj](col, row, i);
       } else {
         console.log(adj);
@@ -131,7 +132,7 @@ const getAdjacentValuesFar = (arr, row, col) => {
       }
     }
     if (nonSeatCount === 0) {
-      console.log(col);
+      console.log(row, col);
       console.log(newReturnObj);
       return newReturnObj;
     }
