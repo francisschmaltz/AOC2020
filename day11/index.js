@@ -21,16 +21,16 @@ const getAdjacentValues = (arr, row, col) => {
   };
   // Initalize all 8 values
   let returnObject = {
-    hzLft: col - 1 > 0 ? arr[row][col - 1] : null,
-    hzRgt: col + 1 < arr.length ? arr[row][col + 1] : null,
+    hzLft: col - 1 >= 0 ? arr[row][col - 1] : null,
+    hzRgt: col + 1 <= arr.length ? arr[row][col + 1] : null,
 
     upCen: arr[row - 1] ? arr[row - 1][col] : null,
-    upLft: arr[row - 1] && col - 1 > 0 ? arr[row - 1][col - 1] : null,
-    upRgt: arr[row - 1] && col + 1 < arr.length ? arr[row - 1][col + 1] : null,
+    upLft: arr[row - 1] && col - 1 >= 0 ? arr[row - 1][col - 1] : null,
+    upRgt: arr[row - 1] && col + 1 <= arr.length ? arr[row - 1][col + 1] : null,
 
     dnCen: arr[row + 1] ? arr[row + 1][col] : null,
-    dnLft: arr[row + 1] && col - 1 > 0 ? arr[row + 1][col - 1] : null,
-    dnRgt: arr[row + 1] && col + 1 < arr.length ? arr[row + 1][col + 1] : null,
+    dnLft: arr[row + 1] && col - 1 >= 0 ? arr[row + 1][col - 1] : null,
+    dnRgt: arr[row + 1] && col + 1 <= arr.length ? arr[row + 1][col + 1] : null,
   };
 
   return returnObject;
@@ -74,12 +74,14 @@ const findSeeting = (arr) => {
 
   // create internal array to prevent JS issues
   let _arr = [...arr];
+  let _tmpArr = [...arr];
 
   // create array of previous values to compare
   let previousArr = [...arr];
 
   // Run for loop until stable
   const iterate = () => {
+    previousArr = [..._arr];
     console.log(previousArr);
     console.log(_arr);
     // increment every run
@@ -87,15 +89,13 @@ const findSeeting = (arr) => {
     // Run through rules on each row
     _arr.forEach((row, r) => {
       // create new string to replace row
+
       let newRow = "";
-      if (r === 1) {
-        console.log(row);
-      }
+
       // Run through rules for each item in row of array
       for (let c = 0; c < row.length; c++) {
-        console.log(`Row[c] ${row[c]}`);
         let adj = getAdjacentValues(_arr, r, c);
-        console.log(newRow);
+
         if (row[c] === ".") {
           // char is floor, move on
           newRow += ".";
@@ -108,6 +108,7 @@ const findSeeting = (arr) => {
               occupied++;
             }
           }
+
           if (occupied === 0) {
             newRow += "#";
           } else {
@@ -131,16 +132,14 @@ const findSeeting = (arr) => {
           console.error("Unexpected Input");
         }
       }
-      _arr[r] = newRow;
-      console.log("after");
-      console.log(_arr);
+      _tmpArr[r] = newRow;
     });
     // after rules check if current Array
     // matches previous. If not, change previous
-    if (checkEqual(_arr, previousArr)) {
+    if (checkEqual(_tmpArr, previousArr)) {
       // log seats that are taken
       let seatsTaken = 0;
-      _arr.forEach((row, r) => {
+      _tmpArr.forEach((row, r) => {
         // create new string to replace row
         // Run through rules for each item in row of array
         for (let c = 0; c < row.length; c++) {
@@ -149,12 +148,11 @@ const findSeeting = (arr) => {
           }
         }
       });
-      console.log(`seatsTaken: ${seatsTaken}`);
+      console.log(`Seats Taken: ${seatsTaken}`);
 
       return iterations;
     } else {
-      console.log("else");
-      previousArr = [..._arr];
+      _arr = [..._tmpArr];
       iterate();
     }
   };
@@ -165,5 +163,5 @@ const findSeeting = (arr) => {
 };
 
 console.log(
-  `Number of itterations before stable seeting: ${findSeeting(dataSample1)}`
+  `Number of itterations before stable seeting: ${findSeeting(data)}`
 );
