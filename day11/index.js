@@ -276,10 +276,10 @@ const findSeeting = (
 
   return iterations;
 };
-//
-// console.log(
-//   `Number of itterations before stable seeting: ${findSeeting(data)}`
-// );
+
+console.log(
+  `Number of itterations before stable seeting: ${findSeeting(data)}`
+);
 
 console.log(
   `Part Two: Number of itterations before stable seeting: ${findSeeting(
