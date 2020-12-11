@@ -63,7 +63,7 @@ const getAdjacentValuesFar = (arr, row, col) => {
       return _col - _int >= 0 ? arr[_row][_col - _int] : null;
     },
     hzRgt: (_col, _row, _int = 1) => {
-      return _col + _int < arr.length ? arr[_row][_col + _int] : null;
+      return _col + _int < arr[_row].length ? arr[_row][_col + _int] : null;
     },
 
     upCen: (_col, _row, _int = 1) => {
@@ -75,7 +75,7 @@ const getAdjacentValuesFar = (arr, row, col) => {
         : null;
     },
     upRgt: (_col, _row, _int = 1) => {
-      return _row - _int >= 0 && _col + _int <= arr.length
+      return _row - _int >= 0 && _col + _int < arr[_row].length
         ? arr[_row - _int][_col + _int]
         : null;
     },
@@ -89,7 +89,7 @@ const getAdjacentValuesFar = (arr, row, col) => {
         : null;
     },
     dnRgt: (_col, _row, _int = 1) => {
-      return _row + _int < arr.length && _col + _int < arr.length
+      return _row + _int < arr.length && _col + _int < arr[_row].length
         ? arr[_row + _int][_col + _int]
         : null;
     },
@@ -113,6 +113,12 @@ const getAdjacentValuesFar = (arr, row, col) => {
   nonSeatCount = 8;
   for (adj in returnObject) {
     for (var i = 1; i < arr.length; ++i) {
+      if (unDef(returnObject[adj]) === true) {
+        console.log(unDef(returnObject[adj]));
+        console.error(returnObject);
+        console.log(returnObject[adj]);
+        throw new Error("why is this undefined – somethings wrong");
+      }
       if (returnObject[adj] === null) {
         nonSeatCount -= 1;
         newReturnObj[adj] = null;
@@ -270,10 +276,10 @@ const findSeeting = (
 
   return iterations;
 };
-
-console.log(
-  `Number of itterations before stable seeting: ${findSeeting(data)}`
-);
+//
+// console.log(
+//   `Number of itterations before stable seeting: ${findSeeting(data)}`
+// );
 
 console.log(
   `Part Two: Number of itterations before stable seeting: ${findSeeting(
