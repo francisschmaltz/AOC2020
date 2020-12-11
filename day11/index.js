@@ -37,6 +37,111 @@ const getAdjacentValues = (arr, row, col) => {
 };
 
 /**
+ * Get values of adjacent positon that is a chair and
+ * will skip over non-chair values and
+ * return as an object
+ * @param {Array} Array w/ standard row length
+ * @param {Number} Int - row index
+ * @param {Number} Int - column index
+ * @return {Object} Obejct of values or null
+ */
+const getAdjacentValuesFar = (arr, row, col) => {
+  // create undefined func for easy testing
+  const unDef = (input) => {
+    if (typeof input === undefined) {
+      return true;
+    } else {
+      return input;
+    }
+  };
+
+  // Create functions that search but do so with an int so we can
+  // change the search distance. Create these functions inside an
+  // object to call later
+  let funcMap = {
+    hzLft: (_col, _row, _int = 1) => {
+      return _col - _int >= 0 ? arr[_row][_col - _int] : null;
+    },
+    hzRgt: (_col, _row, _int = 1) => {
+      return _col + _int < arr.length ? arr[_row][_col + _int] : null;
+    },
+
+    upCen: (_col, _row, _int = 1) => {
+      return arr[_row - _int] ? arr[_row - _int][_col] : null;
+    },
+    upLft: (_col, _row, _int = 1) => {
+      return arr[_row - _int] && _col - _int >= 0
+        ? arr[_row - _int][_col - _int]
+        : null;
+    },
+    upRgt: (_col, _row, _int = 1) => {
+      return arr[_row - _int] && _col + _int <= arr.length
+        ? arr[_row - _int][_col + _int]
+        : null;
+    },
+
+    dnCen: (_col, _row, _int = 1) => {
+      return arr[_row + _int] ? arr[_row + _int][_col] : null;
+    },
+    dnLft: (_col, _row, _int = 1) => {
+      return arr[_row + _int] && _col - _int >= 0
+        ? arr[_row + _int][_col - _int]
+        : null;
+    },
+    dnRgt: (_col, _row, _int = 1) => {
+      return arr[_row + _int] && _col + _int < arr.length
+        ? arr[_row + _int][_col + _int]
+        : null;
+    },
+  };
+
+  // Initalize all 8 values
+  let returnObject = {
+    hzLft: funcMap["hzLft"](col, row, 1),
+    hzRgt: funcMap["hzRgt"](col, row, 1),
+
+    upCen: funcMap["upCen"](col, row, 1),
+    upLft: funcMap["upLft"](col, row, 1),
+    upRgt: funcMap["upRgt"](col, row, 1),
+
+    dnCen: funcMap["dnCen"](col, row, 1),
+    dnLft: funcMap["dnLft"](col, row, 1),
+    dnRgt: funcMap["dnRgt"](col, row, 1),
+  };
+
+  let newReturnObj = {};
+  nonSeatCount = 8;
+  for (adj in returnObject) {
+    for (var i = 0; i < arr.length; ++i) {
+      if (returnObject[adj] === null) {
+        nonSeatCount -= 1;
+        newReturnObj[adj] = null;
+        break;
+      } else if (returnObject[adj] === "L" || returnObject[adj] === "#") {
+        nonSeatCount -= 1;
+        newReturnObj[adj] = returnObject[adj] === "L" ? "L" : "#";
+        break;
+      } else if (unDef(returnObject[adj]) !== true) {
+        // Call function by object name
+        returnObject[adj] = funcMap[adj](col, row, i);
+      } else {
+        console.log(adj);
+        console.log(returnObject[adj]);
+        throw new Error("Somethings wrong I can feel it (adj in returnObject)");
+      }
+    }
+    if (nonSeatCount === 0) {
+      console.log(col);
+      console.log(newReturnObj);
+      return newReturnObj;
+    }
+  }
+
+  console.log(returnObject);
+  throw new Error("No return value ready");
+};
+
+/**
  * returns tue if array content is equal
  * @param {Array} Array 1
  * @param {Array} Array 2
@@ -65,10 +170,18 @@ const checkEqual = (a, b) => {
  * Find number of time to run rules
  * before no changes to array
  * @param {Array} Array of integers
+ * @param {Function} Func used for getting
+ * adjacent values
+ * @param {Number} Int (Optional | 4) of
+ * adjacent seats to consider
  * @return {Number} Int of number of time
  * rules run before stable
  */
-const findSeeting = (arr) => {
+const findSeeting = (
+  arr,
+  adjFunction = getAdjacentValues,
+  seatRuleIndex = 4
+) => {
   // Keep track of itterations
   let iterations = 0;
 
@@ -94,7 +207,7 @@ const findSeeting = (arr) => {
 
       // Run through rules for each item in row of array
       for (let c = 0; c < row.length; c++) {
-        let adj = getAdjacentValues(_arr, r, c);
+        let adj = adjFunction(_arr, r, c);
 
         if (row[c] === ".") {
           // char is floor, move on
@@ -123,7 +236,7 @@ const findSeeting = (arr) => {
               occupied++;
             }
           }
-          if (occupied >= 4) {
+          if (occupied >= seatRuleIndex) {
             newRow += "L";
           } else {
             newRow += "#";
@@ -162,6 +275,14 @@ const findSeeting = (arr) => {
   return iterations;
 };
 
+// console.log(
+//   `Number of itterations before stable seeting: ${findSeeting(data)}`
+// );
+
 console.log(
-  `Number of itterations before stable seeting: ${findSeeting(data)}`
+  `Part Two: Number of itterations before stable seeting: ${findSeeting(
+    dataSample1,
+    getAdjacentValuesFar,
+    5
+  )}`
 );
