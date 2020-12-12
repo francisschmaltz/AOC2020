@@ -21,7 +21,7 @@ const _parseInst = (inst) => {
 /**
  * Takes a list of moves and translated them to position.
  * The position is an array of figures and a direction. The
- * positon array is [Int, Int] with [0,0] being starting. The
+ * position array is [Int, Int] with [0,0] being starting. The
  * positive is north and east, respectively.
  * @param {Array} Array for moves
  * @param {Array} Array - Optional – starting pos default
@@ -108,7 +108,7 @@ console.log(
 /**
  * Takes a list of moves and translated them to position.
  * The position is an array of figures and a direction. The
- * positon array is [Int, Int] with [0,0] being starting. The
+ * position array is [Int, Int] with [0,0] being starting. The
  * positive is north and east, respectively.
  * @param {Array} Array for moves
  * @param {Array} Array - Optional – waypoint pos default
