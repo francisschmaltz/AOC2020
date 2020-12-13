@@ -62,3 +62,44 @@ findEarliestArrival = (arr) => {
 };
 
 console.log(findEarliestArrival(data));
+
+// Part two has to do with bigInt in JS. This is NOT solvable with this soltuon – only verafiable
+// unless you have DAYS to let this run
+
+// You can use the ruby file ./cheat.rb to get the real answer and check with this
+const leastCommonMultipleTime = (arr) => {
+  console.log("in func");
+  for (let t = 645338524823717n; t < 645338524823719n; t += 1n) {
+    console.log("in for loop");
+    console.log(t);
+    let numberOfTrue = 0;
+    arr.forEach((item, i) => {
+      if (item !== "x") {
+        // console.log(`offset: ${i}, time: ${t} item: ${item}`);
+        // console.log(t % parseInt(item));
+        if (
+          (t % BigInt(item) === 0n && i === 0) ||
+          (t + BigInt(i)) % BigInt(item) === 0n
+        ) {
+          numberOfTrue++;
+        } else {
+          // False
+        }
+      } else {
+        numberOfTrue++;
+      }
+    });
+    if (numberOfTrue === arr.length) {
+      console.log("all true");
+
+      return t;
+    }
+  }
+
+  return 0;
+};
+
+console.log(645338524823718);
+console.log(
+  `Part Two: Time with asending times: ${leastCommonMultipleTime([...data[1]])}`
+);
