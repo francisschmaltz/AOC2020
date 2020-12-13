@@ -9,7 +9,7 @@ const dataSample1Raw = require("./dataSample1").split("\n");
  */
 const _parseData = (data) => {
   let measureAfter = data[0];
-  let busses = data[1].split(/\D/).filter((value) => value.length > 0);
+  let busses = data[1].split(",");
   return [measureAfter, [...busses]];
 };
 
@@ -17,26 +17,29 @@ const dataSample1 = _parseData(dataSample1Raw);
 const data = _parseData(dataRaw);
 
 /**
- * Does thing
+ * findEarliestArrival
  * @param {Array} Array for thing
  * @return {Number} position from 1 to 2^(string length)
  */
-doThing = (arr) => {
+findEarliestArrival = (arr) => {
   // Set time of arrival
   let arriveTime = parseInt(arr[0]);
 
   let departureTimes = {};
 
   // for each bus time (array of times) calculate departures
-  arr[1].forEach((item, i) => {
-    // turn time into int
-    let routeTime = parseInt(item);
-    let departTime = 0;
-    for (let t = 0; t < arriveTime + routeTime; t += routeTime) {
-      departTime = t;
-    }
-    departureTimes[item] = departTime;
-  });
+  // filter out "x" from part 2
+  arr[1]
+    .filter((value) => value.length > 1)
+    .forEach((item, i) => {
+      // turn time into int
+      let routeTime = parseInt(item);
+      let departTime = 0;
+      for (let t = 0; t < arriveTime + routeTime; t += routeTime) {
+        departTime = t;
+      }
+      departureTimes[item] = departTime;
+    });
 
   // ID of the earliest bus multiplied by the number of minutes
   // you'll need to wait for that bus?
@@ -58,5 +61,4 @@ doThing = (arr) => {
   return departureTimes;
 };
 
-console.log(data[0]);
-console.log(doThing(data));
+console.log(findEarliestArrival(data));
