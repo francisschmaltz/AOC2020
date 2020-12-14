@@ -167,6 +167,9 @@ const runMemoryFloating = (arr) => {
           }
         }
       });
+
+      // Store value of MemIndex in memory address as we need to
+      // keep track of the last time we edited this for the answer
       console.log(_arrs);
       _arrs.forEach((addr, i) => {
         mem[addr] = _memIndex;
