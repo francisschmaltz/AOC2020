@@ -3,14 +3,6 @@ const data = require("./data").split(",");
 const dataSample1 = require("./sample").split(",");
 const dataSample2 = require("./sample2").split(",");
 
-const notUnDef = (input) => {
-  if (typeof input === undefined) {
-    return false;
-  } else {
-    return true;
-  }
-};
-
 /**
  * Convert values in memory (array of values) to
  * something with floating support
