@@ -24,6 +24,14 @@ const playGame = (arr, queryNum = 2020) => {
 
   // run through all possible entries until specific num
   for (let i = 0; i < queryNum; i++) {
+    // for large numbers keep track
+    if (i % 100000 === 0) {
+      console.log(
+        `Running Query ${i} of ${queryNum}. ${Math.round(
+          (i / queryNum) * 100
+        )}% complete`
+      );
+    }
     // check if we are through starting nums
     if (i >= arr.length) {
       // we are out of starting numbers so we gotta do stuff
@@ -69,7 +77,9 @@ const playGame = (arr, queryNum = 2020) => {
       _lastNum = parseInt(arr[i]);
     }
   }
-  console.log(`\n last spoken: ${_lastNum}`);
-  return _gameObj;
+  return _lastNum;
 };
-let gameData = playGame(data);
+
+console.log(`Part 1: last number spoken = ${playGame(data)}`);
+
+console.log(`Part 2: last number spoken = ${playGame(data, 30000000)}`);
