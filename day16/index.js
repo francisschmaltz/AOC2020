@@ -46,10 +46,10 @@ const dataSample1 = _parseInput(dataSample1Raw);
 const dataSample2 = _parseInput(dataSample2Raw);
 
 /**
- * Convert values in memory (array of values) to
- * something with floating support
- * @param {Array} Array of masks or instructions
- * @return {Array} Array of Memory values
+ * Find numbers in all tickets that don't match
+ * the paramaters and add them all together
+ * @param {Array} Array of tickets and instructions
+ * @return {Number} Array of Memory values
  */
 const findInvalidTickets = (arr) => {
   // stores an object of the ticket number and missing number
@@ -88,10 +88,12 @@ console.log(
 );
 
 /**
- * Convert values in memory (array of values) to
- * something with floating support
- * @param {Array} Array of masks or instructions
- * @return {Array} Array of Memory values
+ * Sort ticket data, then find which field is which name
+ * then get all fields named departure and multiply
+ * them all together for our ticket
+ * @param {Array} Array of tickets and instructions
+ * @param {Array} Array of raw data
+ * @return {Number} Array of Memory values
  */
 const findTicketFields = (arr, arrRaw) => {
   // stores a set of tickets to remove later
