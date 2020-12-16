@@ -45,10 +45,6 @@ const data = _parseInput(dataRaw);
 const dataSample1 = _parseInput(dataSample1Raw);
 const dataSample2 = _parseInput(dataSample2Raw);
 
-console.log(dataSample1[0]);
-console.log(dataSample1[1]);
-console.log(dataSample1[2]);
-
 /**
  * Convert values in memory (array of values) to
  * something with floating support
@@ -83,7 +79,6 @@ const findInvalidTickets = (arr) => {
     });
   });
 
-  console.log(`nunbers with no matches: ${noMatchNumbers}`);
   // return sum of all numbers
   return noMatchNumbers.reduce((a, b) => a + b, 0);
 };
@@ -212,18 +207,52 @@ const findTicketFields = (arr, arrRaw) => {
     Object.entries(_fieldNames).sort(([, a], [, b]) => a.size - b.size)
   );
 
-  console.log("sortedFN");
-  console.log(_sortedFN);
+  // Create object to map fields to values
+  let _mappedFields = {};
+
+  // create new set of taken values
+  let _takenValues = new Set();
+
+  // Now that the object is sorted we need to find which value is
+  // which field
+  for (let field in _sortedFN) {
+    // remove values that are already known from current field
+    for (let value of _takenValues) {
+      if (_sortedFN[field].has(value)) {
+        _sortedFN[field].delete(value);
+      }
+    }
+
+    // If the field map has more than 1 entry we did something wrong
+    if (_sortedFN[field].size !== 1) {
+      throw new Error(
+        `_sortedFN[field].size is ${_sortedFN[field].size}. Because there isn't 1 we can't determine without guessing what value maps to ${field} `
+      );
+    }
+
+    // now that we only have 1 value for field, we know for a fact
+    // that this is the only value it can be so we add it to
+    // _takenValues and add it to _mappedFields
+    _takenValues.add(_sortedFN[field].entries().next().value[0]);
+    _mappedFields[field] = _sortedFN[field].entries().next().value[0];
+  }
+
+  // create array to keep track of departure-named fields on self ticket
+  let _departureSelfValues = [];
+
+  // Itterate through _mappedFields to find ones named departure and
+  // add our values for these fileds to _departureSelfValues
+  for (let field in _mappedFields) {
+    if (field.match(/^departure/)) {
+      _departureSelfValues.push(arr[1][0][parseInt(_mappedFields[field])]);
+    }
+  }
+
+  // return all fields on our ticket that start with "departure"
+  // multiplied together
+  return _departureSelfValues.reduce((a, b) => a * b);
 };
-findTicketFields(data, dataRaw);
-console.log(data[1][0]);
+
 console.log(
-  `Part 2: All departure values multiples: ${
-    data[1][0][6] *
-    data[1][0][18] *
-    data[1][0][19] *
-    data[1][0][10] *
-    data[1][0][7] *
-    data[1][0][17]
-  }`
+  `Part 2: All departure values multiples: ${findTicketFields(data, dataRaw)}`
 );
