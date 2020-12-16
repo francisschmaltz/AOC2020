@@ -164,6 +164,10 @@ const findTicketFields = (arr, arrRaw) => {
   });
 
   // create object to keep track of feidl name matches
+  // the object is an object of ticket field names and a map
+  // of keyvalue for the time it's appeared in the index of a ticket.
+  // Field name possible matches will be equal to the number of
+  // total good tickets
   let _fieldNames = {};
   arrRaw[0].split("\n").forEach((row, r) => {
     _fieldNames[row.match(/[^:]*/)[0]] = new Map();
@@ -202,6 +206,8 @@ const findTicketFields = (arr, arrRaw) => {
   }
 
   // sort remaining by number of matching entries
+  // This leaves us with an object sorted by the field name
+  // with the lowest possible matching field indexes
   const _sortedFN = Object.fromEntries(
     Object.entries(_fieldNames).sort(([, a], [, b]) => a.size - b.size)
   );
