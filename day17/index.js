@@ -68,20 +68,6 @@ class Point {
       { z: this.z + 1, x: this.x + 1, y: this.y + 1 },
     ];
   }
-
-  // checks if this point matches pos
-  isSamePointAs(otherPoint) {
-    if (!otherPoint instanceof Point) {
-      // construction must be made of Points
-      throw new Error("isSamePoint only checks point");
-    }
-
-    if (this.hash === otherPoint.hash) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
 
 class World {
