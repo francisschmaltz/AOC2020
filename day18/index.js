@@ -2,14 +2,20 @@
 const data = require("./data").split("\n");
 const dataSample1 = require("./dataSample1").split("\n");
 
-/**
- * Takes array of data and array for move
- * and returns INT of number of
- * passports that are valid
- * @param {Array} array of objects
- * @return {Number} INT of valid passports
- */
-const evaluateMath = (str) => {
+const evaluateMath = (str, part2 = false) => {
+  // part 2 from https://en.wikipedia.org/wiki/Operator-precedence_parser#Alternative_methods
+  if (part2) {
+    return eval(
+      "((" +
+        str
+          .replace(/\(/g, "(((")
+          .replace(/\)/g, ")))")
+          .replace(/\+/g, ")+(")
+          .replace(/\*/g, "))*((") +
+        "))"
+    );
+  }
+
   let rawString = str.replace(/\s/g, "");
   let equation = rawString.split("");
 
@@ -70,5 +76,8 @@ const evaluateMath = (str) => {
 
 let dataMapPart1 = data.map((equation, q) => evaluateMath(equation));
 
-console.log(dataMapPart1.reduce((a, b) => a + b, 0));
-// console.log(evaluateMath(dataSample1[3]));
+console.log(`Part 1: ${dataMapPart1.reduce((a, b) => a + b, 0)}`);
+
+let dataMapPart2 = data.map((equation, q) => evaluateMath(equation, true));
+
+console.log(`Part 2: ${dataMapPart2.reduce((a, b) => a + b, 0)}`);
